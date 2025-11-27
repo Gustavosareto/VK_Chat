@@ -1,0 +1,119 @@
+name: VKChat
+version: ${project.version}
+main: me.vkchat.VKChat
+author: VKChat
+description: Sistema completo de chat com suporte a Vault, PlaceholderAPI e LuckPerms
+api-version: 1.13
+softdepend: [Vault, PlaceholderAPI, LuckPerms]
+
+commands:
+  slowchat:
+    description: Ativa ou desativa o slow mode
+    usage: /slowchat <segundos|off>
+    permission: vkchat.slowchat
+    aliases: [slow]
+  
+  chat:
+    description: Comandos de gerenciamento do chat
+    usage: /chat <toggle|clear>
+    permission: vkchat.chat
+  
+  tell:
+    description: Envia uma mensagem privada
+    usage: /tell <player> <mensagem>
+    permission: vkchat.tell
+    aliases: [msg, whisper, w]
+  
+  reply:
+    description: Responde a última mensagem privada
+    usage: /reply <mensagem>
+    permission: vkchat.reply
+    aliases: [r]
+  
+  g:
+    description: Envia mensagem no chat global
+    usage: /g <mensagem>
+    permission: vkchat.channel.global
+    aliases: [global]
+  
+  l:
+    description: Envia mensagem no chat local
+    usage: /l <mensagem>
+    permission: vkchat.channel.local
+    aliases: [local]
+  
+  sc:
+    description: Chat da staff
+    usage: /sc <mensagem>
+    permission: vkchat.staff
+    aliases: [staffchat, chatstaff]
+
+permissions:
+  vkchat.*:
+    description: Todas as permissões do VKChat
+    children:
+      vkchat.slowchat: true
+      vkchat.slowchat.bypass: true
+      vkchat.chat: true
+      vkchat.chat.clear: true
+      vkchat.chat.toggle: true
+      vkchat.tell: true
+      vkchat.reply: true
+      vkchat.channel.global: true
+      vkchat.channel.local: true
+      vkchat.staff: true
+      vkchat.antispam.bypass: true
+      vkchat.color: true
+      vkchat.mention.use: true
+  
+  vkchat.slowchat:
+    description: Permite usar o comando /slowchat
+    default: op
+  
+  vkchat.slowchat.bypass:
+    description: Permite ignorar o slow mode
+    default: op
+  
+  vkchat.chat:
+    description: Permite usar comandos de chat
+    default: op
+  
+  vkchat.chat.clear:
+    description: Permite limpar o chat
+    default: op
+  
+  vkchat.chat.toggle:
+    description: Permite desativar o chat
+    default: true
+  
+  vkchat.tell:
+    description: Permite enviar mensagens privadas
+    default: true
+  
+  vkchat.reply:
+    description: Permite responder mensagens privadas
+    default: true
+  
+  vkchat.channel.global:
+    description: Permite enviar mensagens no chat global
+    default: true
+  
+  vkchat.channel.local:
+    description: Permite enviar mensagens no chat local
+    default: true
+  
+  vkchat.staff:
+    description: Permite usar o chat da staff
+    default: op
+  
+  vkchat.antispam.bypass:
+    description: Permite ignorar o anti-spam
+    default: op
+  
+  vkchat.color:
+    description: Permite usar cores no chat
+    default: false
+  
+  vkchat.mention.use:
+    description: Permite mencionar jogadores
+    default: true

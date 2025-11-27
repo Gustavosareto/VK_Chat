@@ -1,0 +1,120 @@
+# ========================================
+#           VKChat - Configuração
+# ========================================
+
+# Formato de chat por grupo
+# Placeholders disponíveis:
+# {player} - Nome do jogador
+# {displayname} - Nome de exibição
+# {world} - Nome do mundo
+# {group} - Grupo principal do jogador
+# {prefix} - Prefixo do Vault/LuckPerms
+# {suffix} - Sufixo do Vault/LuckPerms
+# {message} - Mensagem do jogador
+# Suporta PlaceholderAPI: Use %placeholder%
+
+chat-format:
+  default: "&7{player}: &f{message}"
+  vip: "&6[VIP] &e{player}: &f{message}"
+  mvp: "&b[MVP] &3{player}: &f{message}"
+  admin: "&c[ADMIN] &4{player}: &f{message}"
+  dono: "&5[DONO] &d{player}: &f{message}"
+
+# Sistema de canais
+channels:
+  # Canal global (todos ouvem)
+  global:
+    enabled: true
+    format: "&a[GLOBAL] &7{player}: &f{message}"
+    permission: "vkchat.channel.global"
+  
+  # Canal local (apenas jogadores próximos)
+  local:
+    enabled: true
+    format: "&b[LOCAL] &7{player}: &f{message}"
+    permission: "vkchat.channel.local"
+    range: 100 # Distância em blocos
+
+# Chat da Staff
+staff-chat:
+  enabled: true
+  format: "&c[STAFF] &7{player}: &f{message}"
+  permission: "vkchat.staff"
+
+# Slow Mode
+slow-mode:
+  enabled: false
+  default-delay: 3 # segundos entre mensagens
+  bypass-permission: "vkchat.slowchat.bypass"
+
+# Anti-Spam
+anti-spam:
+  enabled: true
+  bypass-permission: "vkchat.antispam.bypass"
+  
+  # Detectar mensagens repetidas
+  repeat-messages:
+    enabled: true
+    max-repeats: 3 # Quantas vezes pode repetir antes de bloquear
+    time-window: 30 # Segundos para resetar contador
+  
+  # Limite de caracteres
+  max-length:
+    enabled: true
+    characters: 256
+  
+  # Bloqueio de CAPS excessivo
+  caps-block:
+    enabled: true
+    max-percentage: 70 # Porcentagem máxima de letras maiúsculas
+    min-length: 6 # Tamanho mínimo da mensagem para verificar
+  
+  # Filtro de palavras
+  word-filter:
+    enabled: true
+    action: "block" # block (bloqueia) ou replace (substitui por ***)
+    words:
+      - "palavrao1"
+      - "palavrao2"
+      - "palavrao3"
+
+# Sistema de Mentions
+mentions:
+  enabled: true
+  format: "&e&l@{player}" # Como será destacado o nome mencionado
+  sound:
+    enabled: true
+    sound-name: "NOTE_PLING" # Som do Minecraft 1.8.8
+    volume: 1.0
+    pitch: 1.0
+  permission: "vkchat.mention.use"
+
+# Sistema de Logs
+logging:
+  enabled: true
+  log-folder: "logs" # Pasta onde os logs serão salvos
+  log-public-chat: true
+  log-private-messages: true
+  log-staff-chat: true
+  log-commands: true
+  date-format: "dd-MM-yyyy" # Formato do nome do arquivo
+
+# Chat Toggle (desativar chat)
+chat-toggle:
+  enabled: true
+  permission: "vkchat.chat.toggle"
+
+# Configurações gerais
+general:
+  # Permitir cores no chat (&a, &b, etc)
+  color-codes:
+    enabled: true
+    permission: "vkchat.color"
+  
+  # Permitir formatação (&l, &o, &n, etc)
+  format-codes:
+    enabled: true
+    permission: "vkchat.color"
+  
+  # Canal padrão ao entrar no servidor
+  default-channel: "global" # global ou local

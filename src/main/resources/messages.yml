@@ -1,0 +1,55 @@
+# ========================================
+#        VKChat - Mensagens
+# ========================================
+
+prefix: "&8[&bVKChat&8]&r"
+
+# Comandos gerais
+no-permission: "{prefix} &cVocê não tem permissão para fazer isso!"
+player-not-found: "{prefix} &cJogador não encontrado!"
+player-offline: "{prefix} &cEste jogador está offline!"
+reload-success: "{prefix} &aConfiguração recarregada com sucesso!"
+
+# Slow Mode
+slowmode-enabled: "{prefix} &aSlow mode ativado! Delay: &f{delay}s"
+slowmode-disabled: "{prefix} &cSlow mode desativado!"
+slowmode-wait: "{prefix} &cAguarde &f{time}s &cantes de enviar outra mensagem!"
+slowmode-invalid: "{prefix} &cUso correto: /slowchat <segundos|off>"
+
+# Chat Clear
+chat-cleared: "{prefix} &aChat limpo!"
+chat-cleared-by: "{prefix} &aChat limpo por &f{player}&a!"
+
+# Chat Toggle
+chat-enabled: "{prefix} &aChat ativado! Você voltará a ver as mensagens."
+chat-disabled: "{prefix} &cChat desativado! Você não verá mais mensagens."
+
+# Mensagens Privadas (Tell/Reply)
+tell-format:
+  sent: "&d[Você -> {receiver}] &f{message}"
+  received: "&d[{sender} -> Você] &f{message}"
+tell-yourself: "{prefix} &cVocê não pode enviar mensagem para si mesmo!"
+tell-usage: "{prefix} &cUso: /tell <player> <mensagem>"
+reply-usage: "{prefix} &cUso: /reply <mensagem>"
+reply-no-target: "{prefix} &cVocê não tem ninguém para responder!"
+
+# Anti-Spam
+antispam-repeat: "{prefix} &cNão repita a mesma mensagem!"
+antispam-too-long: "{prefix} &cSua mensagem é muito longa! Máximo: &f{max} &ccaracteres."
+antispam-caps: "{prefix} &cNão abuse de letras maiúsculas!"
+antispam-blocked-word: "{prefix} &cSua mensagem contém palavras proibidas!"
+
+# Canais
+channel-switched: "{prefix} &aVocê mudou para o canal &f{channel}&a!"
+channel-global: "global"
+channel-local: "local"
+
+# Staff Chat
+staffchat-usage: "{prefix} &cUso: /sc <mensagem>"
+
+# Mentions
+mention-notification: "{prefix} &e{player} &amente mencionou você no chat!"
+
+# Geral
+invalid-command: "{prefix} &cComando inválido! Use: &f{usage}"
+command-disabled: "{prefix} &cEste comando está desabilitado!"
