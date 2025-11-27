@@ -47,6 +47,12 @@ commands:
     usage: /sc <mensagem>
     permission: vkchat.staff
     aliases: [staffchat, chatstaff]
+  
+  spy:
+    description: Espionar mensagens privadas e staff chat
+    usage: /spy [on|off|toggle]
+    permission: vkchat.spy
+    aliases: [socialspy, espionar]
 
 permissions:
   vkchat.*:
@@ -65,6 +71,7 @@ permissions:
       vkchat.antispam.bypass: true
       vkchat.color: true
       vkchat.mention.use: true
+      vkchat.spy: true
   
   vkchat.slowchat:
     description: Permite usar o comando /slowchat
@@ -117,3 +124,7 @@ permissions:
   vkchat.mention.use:
     description: Permite mencionar jogadores
     default: true
+  
+  vkchat.spy:
+    description: Permite espionar mensagens privadas e staff chat
+    default: op

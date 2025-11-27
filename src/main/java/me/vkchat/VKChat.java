@@ -176,6 +176,9 @@ public class VKChat extends JavaPlugin {
         // Comando /sc (staff chat)
         getCommand("sc").setExecutor(new StaffChatCommand(this));
         
+        // Comando /spy
+        getCommand("spy").setExecutor(new SpyCommand(this));
+        
         getLogger().info("Comandos registrados!");
     }
     

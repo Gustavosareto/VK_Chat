@@ -64,16 +64,10 @@ public class StaffChatCommand implements CommandExecutor {
         // Processar mensagem (cores se tiver permissão)
         message = MessageUtil.processMessage(player, message);
         
-        // Obter formato do staff chat
+        // Obter formato do staff chat e processar
         String format = plugin.getConfig().getString("staff-chat.format", 
             "&c[STAFF] &7{player}: &f{message}");
-        format = plugin.getChatManager().replacePlaceholders(player, format);
-        format = format.replace("{message}", message);
-        
-        // Processar PlaceholderAPI (se disponível)
-        format = plugin.getChatManager().formatMessage(player, format);
-        
-        String finalMessage = MessageUtil.colorize(format);
+        String finalMessage = plugin.getChatManager().formatMessage(player, format.replace("{message}", message));
         
         // Enviar apenas para membros da staff
         String permission = plugin.getConfig().getString("staff-chat.permission", "vkchat.staff");
@@ -85,6 +79,10 @@ public class StaffChatCommand implements CommandExecutor {
                 recipients++;
             }
         }
+        
+        // Enviar para modo spy
+        String spyFormat = "&7[SPY-STAFF] &c" + player.getName() + "&7: &f" + message;
+        plugin.getChatManager().sendSpyMessage(spyFormat);
         
         // Avisar se nenhum staff online
         if (recipients == 1) { // Apenas o próprio jogador

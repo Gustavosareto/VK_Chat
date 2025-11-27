@@ -27,11 +27,15 @@ public class ChatManager {
     // Jogadores mutados (para expansão futura)
     private final Map<UUID, Long> mutedPlayers;
     
+    // Jogadores com modo spy ativado
+    private final Map<UUID, Boolean> spyEnabled;
+    
     public ChatManager(VKChat plugin) {
         this.plugin = plugin;
         this.chatDisabled = new HashMap<>();
         this.lastMessages = new HashMap<>();
         this.mutedPlayers = new HashMap<>();
+        this.spyEnabled = new HashMap<>();
     }
     
     /**
@@ -78,6 +82,13 @@ public class ChatManager {
             plugin.getLogger().fine("PlaceholderAPI não disponível para processar placeholders");
         }
         return text;
+    }
+    
+    /**
+     * Versão pública do setPlaceholders para uso externo
+     */
+    public String setPlaceholdersPublic(Player player, String text) {
+        return setPlaceholders(player, text);
     }
     
     /**
@@ -211,5 +222,40 @@ public class ChatManager {
         chatDisabled.clear();
         lastMessages.clear();
         mutedPlayers.clear();
+        spyEnabled.clear();
+    }
+    
+    // ==================== SISTEMA SPY ====================
+    
+    /**
+     * Verifica se o modo spy está ativado para um jogador
+     */
+    public boolean isSpyEnabled(Player player) {
+        return spyEnabled.getOrDefault(player.getUniqueId(), false);
+    }
+    
+    /**
+     * Ativa o modo spy para um jogador
+     */
+    public void enableSpy(Player player) {
+        spyEnabled.put(player.getUniqueId(), true);
+    }
+    
+    /**
+     * Desativa o modo spy para um jogador
+     */
+    public void disableSpy(Player player) {
+        spyEnabled.put(player.getUniqueId(), false);
+    }
+    
+    /**
+     * Envia mensagem spy para todos os jogadores com spy ativado
+     */
+    public void sendSpyMessage(String message) {
+        for (Player online : Bukkit.getOnlinePlayers()) {
+            if (isSpyEnabled(online) && online.hasPermission("vkchat.spy")) {
+                online.sendMessage(MessageUtil.colorize(message));
+            }
+        }
     }
 }

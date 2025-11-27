@@ -2,48 +2,30 @@
 #           VKChat - Configuração
 # ========================================
 
-# Formato de chat por grupo
-# Placeholders disponíveis:
-# {player} - Nome do jogador
-# {displayname} - Nome de exibição
-# {world} - Nome do mundo
-# {group} - Grupo principal do jogador
-# {prefix} - Prefixo do Vault/LuckPerms
-# {suffix} - Sufixo do Vault/LuckPerms
-# {message} - Mensagem do jogador
-# Suporta PlaceholderAPI: Use %placeholder%
-
-chat-format:
-  default: "&7{player}: &f{message}"
-  vip: "&6[VIP] &e{player}: &f{message}"
-  mvp: "&b[MVP] &3{player}: &f{message}"
-  admin: "&c[ADMIN] &4{player}: &f{message}"
-  dono: "&5[DONO] &d{player}: &f{message}"
-
 # Sistema de canais
 channels:
-  # Canal global (todos ouvem)
-  global:
-    enabled: true
-    format: "&a[GLOBAL] &7{player}: &f{message}"
-    permission: "vkchat.channel.global"
-  
   # Canal local (apenas jogadores próximos)
   local:
     enabled: true
-    format: "&b[LOCAL] &7{player}: &f{message}"
+    format: "&e[L] %yrankup_rank_name% {prefix}&7{player}&7: &e{message}"
     permission: "vkchat.channel.local"
     range: 100 # Distância em blocos
+  
+  # Canal global (todos ouvem)
+  global:
+    enabled: true
+    format: "&7[G] %yrankup_rank_name% {prefix}&7{player}&7: &7{message}"
+    permission: "vkchat.channel.global"
 
 # Chat da Staff
 staff-chat:
   enabled: true
-  format: "&c[STAFF] &7{player}: &f{message}"
-  permission: "vkchat.staff"
+  format: "&c[STAFF] {prefix}&7{player}: &f{message}"
+  permission: "vkchat.staff" 
 
 # Slow Mode
 slow-mode:
-  enabled: false
+  enabled: true
   default-delay: 3 # segundos entre mensagens
   bypass-permission: "vkchat.slowchat.bypass"
 
@@ -55,7 +37,7 @@ anti-spam:
   # Detectar mensagens repetidas
   repeat-messages:
     enabled: true
-    max-repeats: 3 # Quantas vezes pode repetir antes de bloquear
+    max-repeats: 5 # Quantas vezes pode repetir antes de bloquear
     time-window: 30 # Segundos para resetar contador
   
   # Limite de caracteres
@@ -74,9 +56,79 @@ anti-spam:
     enabled: true
     action: "block" # block (bloqueia) ou replace (substitui por ***)
     words:
-      - "palavrao1"
-      - "palavrao2"
-      - "palavrao3"
+      - "porra"
+      - "p0rra"
+      - "p@rra"
+      - "caralho"
+      - "krl"
+      - "crl"
+      - "merda"
+      - "m3rda"
+      - "bosta"
+      - "b0sta"
+      - "fdp"
+      - "filho da puta"
+      - "filho d@ p@ta"
+      - "puta"
+      - "p4ta"
+      - "putinha"
+      - "vtnc"
+      - "tnc"
+      - "vai toma no cu"
+      - "toma no cu"
+      - "cu"
+      - "cú"
+      - "c*"
+      - "arrombado"
+      - "arromb4do"
+      - "babaca"
+      - "imbecil"
+      - "otario"
+      - "otário"
+      - "ot4rio"
+      - "idiota"
+      - "idi0ta"
+      - "vagabundo"
+      - "vag4bundo"
+      - "lixo"
+      - "desgraça"
+      - "desgracado"
+      - "desgr@çado"
+      - "macaco"        # como ofensa
+      - "preto"         # como ofensa
+      - "preta"         # como ofensa
+      - "mlk"
+      - "mlk do caralho"
+      - "corno"
+      - "corn0"
+      - "corna"
+      - "fudido"
+      - "fudida"
+      - "vai se foder"
+      - "vai se ferrar"
+      - "praga"
+      - "seu merda"
+      - "seu bosta"
+      - "mongol"
+      - "mongoloide"
+      - "retardado"
+      - "ret4rdado"
+      - "pau no cu"
+      - "pau no c*"
+      - "pau"
+      - "pica"
+      - "pauzudo"
+      - "viado"
+      - "veado"
+      - "viadinho"
+      - "travesti"
+      - "traveco"
+      - "tr4v3co"
+      - "assédio"
+      - "assediar"
+      - "estupro"
+      - "estuprador"
+
 
 # Sistema de Mentions
 mentions:
@@ -87,7 +139,7 @@ mentions:
     sound-name: "NOTE_PLING" # Som do Minecraft 1.8.8
     volume: 1.0
     pitch: 1.0
-  permission: "vkchat.mention.use"
+  permission: ""
 
 # Sistema de Logs
 logging:

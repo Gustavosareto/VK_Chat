@@ -2,7 +2,7 @@
 #        VKChat - Mensagens
 # ========================================
 
-prefix: "&8[&bVKChat&8]&r"
+prefix: "&6Rankup Fox&r"
 
 # Comandos gerais
 no-permission: "{prefix} &cVocê não tem permissão para fazer isso!"

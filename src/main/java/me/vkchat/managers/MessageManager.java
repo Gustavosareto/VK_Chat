@@ -26,21 +26,36 @@ public class MessageManager {
      * Envia uma mensagem privada entre dois jogadores
      */
     public void sendPrivateMessage(Player sender, Player receiver, String message) {
+        // Obter prefixo do sender
+        String senderPrefix = "";
+        if (plugin.getVaultHook().isAvailable()) {
+            senderPrefix = plugin.getVaultHook().getPrefix(sender);
+        }
+        
+        String receiverPrefix = "";
+        if (plugin.getVaultHook().isAvailable()) {
+            receiverPrefix = plugin.getVaultHook().getPrefix(receiver);
+        }
+
         // Formatar mensagens
-        String sentFormat = plugin.getMessagesConfig().getString("tell-format.sent", 
-            "&d[Você -> {receiver}] &f{message}");
-        String receivedFormat = plugin.getMessagesConfig().getString("tell-format.received", 
-            "&d[{sender} -> Você] &f{message}");
+        String sentFormat = "&9[✉️]&7Mensagem para " + receiverPrefix + "&7{receiver}" + "&7: &9{message}";
+        String receivedFormat = "&9[✉️]&7Mensagem de " + senderPrefix + "&7{sender}" + "&7: &9{message}";
         
         // Substituir placeholders
         sentFormat = sentFormat.replace("{receiver}", receiver.getName())
+                               .replace("{sender}", sender.getName())
                                .replace("{message}", message);
         receivedFormat = receivedFormat.replace("{sender}", sender.getName())
+                                      .replace("{receiver}", receiver.getName())
                                       .replace("{message}", message);
         
-        // Enviar mensagens
-        sender.sendMessage(plugin.getChatManager().replacePlaceholders(sender, sentFormat));
-        receiver.sendMessage(plugin.getChatManager().replacePlaceholders(receiver, receivedFormat));
+        // Colorizar e enviar mensagens
+        sender.sendMessage(me.vkchat.utils.MessageUtil.colorize(sentFormat));
+        receiver.sendMessage(me.vkchat.utils.MessageUtil.colorize(receivedFormat));
+        
+        // Enviar para modo spy
+        String spyFormat = "&7[SPY] &d" + sender.getName() + " &7-> &d" + receiver.getName() + "&7: &f" + message;
+        plugin.getChatManager().sendSpyMessage(spyFormat);
         
         // Atualizar alvos de reply
         setReplyTarget(sender, receiver);

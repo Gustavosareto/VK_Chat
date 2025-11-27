@@ -26,23 +26,24 @@ public class ChatListener implements Listener {
         this.plugin = plugin;
     }
     
-    @EventHandler(priority = EventPriority.HIGHEST)
+    @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
     public void onChat(AsyncPlayerChatEvent event) {
         Player player = event.getPlayer();
         String message = event.getMessage();
+        
+        // Cancelar evento IMEDIATAMENTE para evitar processamento padrão
+        event.setCancelled(true);
         
         // ==================== VERIFICAÇÕES ====================
         
         // 1. Verificar se jogador está mutado
         if (plugin.getChatManager().isMuted(player)) {
-            event.setCancelled(true);
             MessageUtil.send(player, "&cVocê está mutado!");
             return;
         }
         
         // 2. Verificar slow mode
         if (!plugin.getSlowModeManager().canSendMessage(player)) {
-            event.setCancelled(true);
             long remaining = plugin.getSlowModeManager().getRemainingCooldown(player);
             MessageUtil.sendMessage(player, "slowmode-wait", "time", String.valueOf(remaining));
             return;
@@ -51,7 +52,6 @@ public class ChatListener implements Listener {
         // 3. Verificar anti-spam
         String spamCheck = plugin.getAntiSpamManager().checkMessage(player, message);
         if (spamCheck != null) {
-            event.setCancelled(true);
             MessageUtil.sendMessage(player, spamCheck, "max", 
                 String.valueOf(plugin.getConfig().getInt("anti-spam.max-length.characters", 256)));
             return;
@@ -67,18 +67,55 @@ public class ChatListener implements Listener {
             message = processMentions(player, message);
         }
         
-        // Obter formato do chat (já inclui PlaceholderAPI se disponível)
-        String format = plugin.getChatManager().formatMessage(player, message);
+        // Obter canal atual do jogador
+        String currentChannel = plugin.getChannelManager().getCurrentChannel(player);
+        
+        // Obter formato do canal
+        String format = plugin.getChannelManager().getChannelFormat(currentChannel);
+        
+        // 1. Substituir placeholders básicos do Vault ({player}, {prefix}, etc)
+        format = format.replace("{player}", player.getName());
+        format = format.replace("{displayname}", player.getDisplayName());
+        format = format.replace("{world}", player.getWorld().getName());
+        
+        // Placeholders do Vault
+        if (plugin.getVaultHook().isAvailable()) {
+            format = format.replace("{group}", plugin.getVaultHook().getPrimaryGroup(player));
+            format = format.replace("{prefix}", plugin.getVaultHook().getPrefix(player));
+            format = format.replace("{suffix}", plugin.getVaultHook().getSuffix(player));
+        }
+        
+        // 2. Processar PlaceholderAPI (%yrankup_rank_name% etc)
+        format = plugin.getChatManager().setPlaceholdersPublic(player, format);
+        
+        // 3. Substituir a mensagem
+        format = format.replace("{message}", message);
+        
+        // 4. Colorir
+        format = MessageUtil.colorize(format);
         
         // ==================== ENVIO ====================
         
-        // Cancelar evento padrão
-        event.setCancelled(true);
-        
-        // Enviar para jogadores que não desabilitaram o chat
-        for (Player online : Bukkit.getOnlinePlayers()) {
-            if (!plugin.getChatManager().isChatDisabled(online)) {
-                online.sendMessage(format);
+        // Se for canal local, enviar apenas para jogadores próximos
+        if (currentChannel.equals("local")) {
+            int range = plugin.getChannelManager().getLocalRange();
+            for (Player online : Bukkit.getOnlinePlayers()) {
+                if (plugin.getChatManager().isChatDisabled(online)) {
+                    continue;
+                }
+                
+                // Verificar se está no mesmo mundo e dentro do alcance
+                if (online.getWorld().equals(player.getWorld()) && 
+                    online.getLocation().distance(player.getLocation()) <= range) {
+                    online.sendMessage(format);
+                }
+            }
+        } else {
+            // Canal global - enviar para todos
+            for (Player online : Bukkit.getOnlinePlayers()) {
+                if (!plugin.getChatManager().isChatDisabled(online)) {
+                    online.sendMessage(format);
+                }
             }
         }
         

@@ -80,12 +80,25 @@ public class GlobalCommand implements CommandExecutor {
         
         // Obter formato do canal
         String format = plugin.getChannelManager().getChannelFormat("global");
-        format = plugin.getChatManager().replacePlaceholders(player, format);
+        
+        // Substituir placeholders básicos do Vault
+        format = format.replace("{player}", player.getName());
+        format = format.replace("{displayname}", player.getDisplayName());
+        format = format.replace("{world}", player.getWorld().getName());
+        
+        if (plugin.getVaultHook().isAvailable()) {
+            format = format.replace("{group}", plugin.getVaultHook().getPrimaryGroup(player));
+            format = format.replace("{prefix}", plugin.getVaultHook().getPrefix(player));
+            format = format.replace("{suffix}", plugin.getVaultHook().getSuffix(player));
+        }
+        
+        // Processar PlaceholderAPI
+        format = plugin.getChatManager().setPlaceholdersPublic(player, format);
+        
+        // Substituir mensagem
         format = format.replace("{message}", message);
         
-        // Processar PlaceholderAPI (se disponível)
-        format = plugin.getChatManager().formatMessage(player, format);
-        
+        // Colorir
         String finalMessage = MessageUtil.colorize(format);
         
         // Enviar para todos os jogadores
