@@ -158,6 +158,12 @@ chat-toggle:
 
 # Configurações gerais
 general:
+  # Ignorar eventos já cancelados por outros plugins
+  # Quando true: se outro plugin cancelar o chat (ex: pedindo input de valor),
+  # o VKChat não processa a mensagem e não envia no chat público
+  # Isso evita que inputs de outros plugins apareçam no chat
+  ignore-cancelled-events: true
+  
   # Permitir cores no chat (&a, &b, etc)
   color-codes:
     enabled: true

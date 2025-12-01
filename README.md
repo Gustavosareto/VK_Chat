@@ -66,6 +66,11 @@ Sistema completo de chat para Minecraft Paper 1.8.8 com suporte a **Vault**, **P
 - ✅ `/chat clear` - Limpar chat de todos
 - ✅ `/chat clear local` - Limpar apenas seu chat
 
+### 🔒 Compatibilidade com Outros Plugins
+- ✅ **Detecção automática de inputs** - Quando outro plugin pede um input via chat (ex: confirmar valor de transferência), a mensagem NÃO aparece no chat público
+- ✅ Configurável via `ignore-cancelled-events` na config.yml
+- ✅ Funciona com plugins de economia, menus, confirmações, etc.
+
 ### 📝 Sistema de Logs
 - ✅ Arquivos rotativos por dia
 - ✅ Registro de mensagens públicas, privadas e staff
@@ -213,6 +218,12 @@ mentions:
   sound:
     enabled: true
     sound-name: "NOTE_PLING"
+
+# Configurações gerais
+general:
+  # Ignora mensagens já processadas por outros plugins
+  # Útil para plugins de economia, menus, etc.
+  ignore-cancelled-events: true
 ```
 
 ### 📄 messages.yml

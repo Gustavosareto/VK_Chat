@@ -26,7 +26,7 @@ public class MessageManager {
      * Envia uma mensagem privada entre dois jogadores
      */
     public void sendPrivateMessage(Player sender, Player receiver, String message) {
-        // Obter prefixo do sender
+        // Obter prefixo do sender e receiver
         String senderPrefix = "";
         if (plugin.getVaultHook().isAvailable()) {
             senderPrefix = plugin.getVaultHook().getPrefix(sender);
@@ -37,17 +37,9 @@ public class MessageManager {
             receiverPrefix = plugin.getVaultHook().getPrefix(receiver);
         }
 
-        // Formatar mensagens
-        String sentFormat = "&9[✉️]&7Mensagem para " + receiverPrefix + "&7{receiver}" + "&7: &9{message}";
-        String receivedFormat = "&9[✉️]&7Mensagem de " + senderPrefix + "&7{sender}" + "&7: &9{message}";
-        
-        // Substituir placeholders
-        sentFormat = sentFormat.replace("{receiver}", receiver.getName())
-                               .replace("{sender}", sender.getName())
-                               .replace("{message}", message);
-        receivedFormat = receivedFormat.replace("{sender}", sender.getName())
-                                      .replace("{receiver}", receiver.getName())
-                                      .replace("{message}", message);
+        // Formatar mensagens (prefix já vem com cor)
+        String sentFormat = "&9[✉️] &7Mensagem para " + receiverPrefix + "&7" + receiver.getName() + "&7: &9" + message;
+        String receivedFormat = "&9[✉️] &7Mensagem de " + senderPrefix + "&7" + sender.getName() + "&7: &9" + message;
         
         // Colorizar e enviar mensagens
         sender.sendMessage(me.vkchat.utils.MessageUtil.colorize(sentFormat));

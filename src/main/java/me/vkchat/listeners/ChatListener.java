@@ -26,10 +26,19 @@ public class ChatListener implements Listener {
         this.plugin = plugin;
     }
     
-    @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
+    @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = false)
     public void onChat(AsyncPlayerChatEvent event) {
         Player player = event.getPlayer();
         String message = event.getMessage();
+        
+        // Verificar se outro plugin já cancelou o evento (conversa com outro plugin)
+        // Isso acontece quando plugins pedem input do jogador via chat
+        if (event.isCancelled()) {
+            if (plugin.getConfig().getBoolean("general.ignore-cancelled-events", true)) {
+                // Não processar - outro plugin está esperando este input
+                return;
+            }
+        }
         
         // Cancelar evento IMEDIATAMENTE para evitar processamento padrão
         event.setCancelled(true);
